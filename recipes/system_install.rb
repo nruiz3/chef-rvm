@@ -30,8 +30,12 @@ if node['rvm']['group_id'] != 'default'
   g.run_action(:create)
 end
 
-key_server = node['rvm']['gpg']['keyserver'] || "hkp://keys.gnupg.net"
-home_dir = "#{node['rvm']['gpg']['homedir'] || '~'}/.gnupg"
+if node['rvm'] && node['rvm']['gpg'] && node['rvm']['gpg']['keyserver']
+  key_server = node['rvm']['gpg']['keyserver']
+else
+  key_server = "hkp://keys.gnupg.net"
+end
+home_dir = "#{Etc.getpwnam('root').dir}/.gnupg"
 
 execute 'Adding gpg key' do
   command "`which gpg2 || which gpg` --keyserver #{key_server} --homedir #{home_dir} --recv-keys #{node['rvm']['gpg_key']}"
