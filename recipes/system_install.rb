@@ -33,7 +33,7 @@ end
 if node['rvm'] && node['rvm']['gpg'] && node['rvm']['gpg']['keyserver']
   key_server = node['rvm']['gpg']['keyserver']
 else
-  key_server = "hkp://pgp.mit.edu"
+  key_server = "hkp://keys.gnupg.net"
 end
 home_dir = "#{Etc.getpwnam('root').dir}/.gnupg"
 
